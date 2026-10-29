@@ -35,7 +35,9 @@ services:
         condition: service_healthy
 
   api:
-    build: ./apps/api
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
     restart: unless-stopped
     env_file: .env
     environment:
@@ -53,7 +55,9 @@ services:
         condition: service_started
 
   web:
-    build: ./apps/web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
     restart: unless-stopped
     environment:
       VITE_API_URL: http://localhost:3000
