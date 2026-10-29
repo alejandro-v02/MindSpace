@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mindspace
+      POSTGRES_PASSWORD: mindspace
+      POSTGRES_DB: mindspace
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindspace"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  ai-service:
+    build: ./apps/ai-service
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://mindspace:mindspace@postgres:5432/mindspace
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    build: ./apps/api
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://mindspace:mindspace@postgres:5432/mindspace
+      REDIS_URL: redis://redis:6379
+      AI_SERVICE_URL: http://ai-service:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      ai-service:
+        condition: service_started
+
+  web:
+    build: ./apps/web
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  postgres-data:
