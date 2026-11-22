@@ -7,7 +7,9 @@ export interface VoiceHandlers {
 function pickSpanishVoice(): SpeechSynthesisVoice | undefined {
   const voices = speechSynthesis.getVoices();
   return (
-    voices.find((voice) => voice.lang.startsWith("es")) ??
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("es-es") && voice.localService) ??
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("es-es")) ??
+    voices.find((voice) => voice.lang.toLowerCase().startsWith("es")) ??
     voices.find((voice) => voice.default)
   );
 }
