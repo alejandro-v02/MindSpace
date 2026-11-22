@@ -119,6 +119,11 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           maxLength={4000}
           disabled={thinking}
           aria-label="Mensaje para A.L.E.J.O."
+          onKeyDown={(event) => {
+            if (event.key === "Escape" && !thinking) {
+              setDraft("");
+            }
+          }}
         />
         {draft.length > 3500 && (
           <span className="chat-character-count" aria-live="polite">
