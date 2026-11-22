@@ -82,7 +82,11 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     <div className="chat-panel">
       <div className="chat-header">
         <strong>A.L.E.J.O.</strong>
-        <span className={connected ? "status-dot status-dot--on" : "status-dot"} />
+        <span
+          className={connected ? "status-dot status-dot--on" : "status-dot"}
+          role="status"
+          aria-label={connected ? "Conectado" : "Desconectado"}
+        />
       </div>
       <div className="chat-messages">
         {messages.map((message) => (
@@ -98,6 +102,8 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Escríbele a A.L.E.J.O."
           autoComplete="off"
+          maxLength={4000}
+          aria-label="Mensaje para A.L.E.J.O."
         />
         <button type="submit" disabled={!connected || !draft.trim()}>
           Enviar
