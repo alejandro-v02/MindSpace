@@ -20,6 +20,12 @@ export function GameCanvas({ onSceneReady }: GameCanvasProps) {
       width: ROOM_SCENE_SIZE.width,
       height: ROOM_SCENE_SIZE.height,
       backgroundColor: "#1a1626",
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: ROOM_SCENE_SIZE.width,
+        height: ROOM_SCENE_SIZE.height,
+      },
       physics: {
         default: "arcade",
         arcade: { gravity: { x: 0, y: 0 }, debug: false },
