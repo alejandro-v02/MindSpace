@@ -7,6 +7,7 @@ interface ChatMessage {
   id: string;
   role: "user" | "alejo";
   text: string;
+  timestamp: Date;
 }
 
 interface ChatPanelProps {
@@ -45,7 +46,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
         }
         const id = crypto.randomUUID();
         streamingIdRef.current = id;
-        return [...prev, { id, role: "alejo", text: payload.token }];
+        return [...prev, { id, role: "alejo", text: payload.token, timestamp: new Date() }];
       });
     };
 
@@ -79,7 +80,10 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     const text = draft.trim();
     if (!text || thinking || !connected) return;
 
-    setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "user", text }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), role: "user", text, timestamp: new Date() },
+    ]);
     getSocket().emit("user:message", { conversationId: getConversationId(), text });
     setDraft("");
   }
@@ -96,7 +100,11 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
       </div>
       <div className="chat-messages">
         {messages.map((message) => (
-          <div key={message.id} className={`chat-bubble chat-bubble--${message.role}`}>
+          <div
+            key={message.id}
+            className={`chat-bubble chat-bubble--${message.role}`}
+            title={message.timestamp.toLocaleString()}
+          >
             {message.text}
           </div>
         ))}
