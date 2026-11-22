@@ -12,7 +12,12 @@ import { OrchestratorService } from './orchestrator.service';
 import { UserMessageDto } from './dto/user-message.dto';
 
 @WebSocketGateway({
-  cors: { origin: process.env.WEB_ORIGIN ?? 'http://localhost:5173' },
+  cors: {
+    origin: (process.env.WEB_ORIGIN ?? 'http://localhost:5173')
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean),
+  },
 })
 export class ChatGateway {
   private readonly logger = new Logger(ChatGateway.name);
