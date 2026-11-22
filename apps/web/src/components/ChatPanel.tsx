@@ -120,6 +120,11 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           disabled={thinking}
           aria-label="Mensaje para A.L.E.J.O."
         />
+        {draft.length > 3500 && (
+          <span className="chat-character-count" aria-live="polite">
+            {draft.length}/4000
+          </span>
+        )}
         <button type="submit" disabled={!connected || thinking || !draft.trim()}>
           {thinking ? "Pensando" : "Enviar"}
         </button>

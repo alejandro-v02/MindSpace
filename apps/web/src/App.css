@@ -129,3 +129,11 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.chat-character-count {
+  align-self: center;
+  min-width: 62px;
+  color: #bfb3d1;
+  font-size: 11px;
+  text-align: right;
+}
