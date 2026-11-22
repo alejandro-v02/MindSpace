@@ -25,7 +25,10 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     const socket = getSocket();
 
     const onConnect = () => setConnected(true);
-    const onDisconnect = () => setConnected(false);
+    const onDisconnect = () => {
+      setConnected(false);
+      setThinking(false);
+    };
 
     const onThinking = () => {
       setThinking(true);
