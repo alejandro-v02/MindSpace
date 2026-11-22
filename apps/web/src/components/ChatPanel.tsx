@@ -17,6 +17,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [connected, setConnected] = useState(() => getSocket().connected);
+  const [thinking, setThinking] = useState(false);
   const streamingIdRef = useRef<string | null>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
 
@@ -27,6 +28,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     const onDisconnect = () => setConnected(false);
 
     const onThinking = () => {
+      setThinking(true);
       sceneRef.current?.showThinking();
     };
 
@@ -45,6 +47,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     };
 
     const onDone = (payload: { agentId: string; message: string }) => {
+      setThinking(false);
       streamingIdRef.current = null;
       void sceneRef.current?.say(payload.message);
     };
@@ -71,7 +74,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const text = draft.trim();
-    if (!text) return;
+    if (!text || thinking || !connected) return;
 
     setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "user", text }]);
     getSocket().emit("user:message", { conversationId: getConversationId(), text });
@@ -100,13 +103,14 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
         <input
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          placeholder="Escríbele a A.L.E.J.O."
+          placeholder={thinking ? "A.L.E.J.O. está pensando..." : "Escríbele a A.L.E.J.O."}
           autoComplete="off"
           maxLength={4000}
+          disabled={thinking}
           aria-label="Mensaje para A.L.E.J.O."
         />
-        <button type="submit" disabled={!connected || !draft.trim()}>
-          Enviar
+        <button type="submit" disabled={!connected || thinking || !draft.trim()}>
+          {thinking ? "Pensando" : "Enviar"}
         </button>
       </form>
     </div>

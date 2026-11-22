@@ -110,6 +110,11 @@
   color: #f4ecff;
 }
 
+.chat-input input:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
 .chat-input button {
   padding: 8px 14px;
   border-radius: 8px;
