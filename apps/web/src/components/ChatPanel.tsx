@@ -127,7 +127,13 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
             className={`chat-bubble chat-bubble--${message.role}`}
             title={message.timestamp.toLocaleString()}
           >
-            {message.text}
+            <span>{message.text}</span>
+            <time className="chat-timestamp" dateTime={message.timestamp.toISOString()}>
+              {message.timestamp.toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </time>
           </div>
         ))}
         <div ref={listEndRef} />
