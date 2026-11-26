@@ -14,6 +14,8 @@ interface ChatPanelProps {
   sceneRef: React.RefObject<RoomScene | null>;
 }
 
+const MAX_CHAT_MESSAGES = 100;
+
 export function ChatPanel({ sceneRef }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
@@ -49,7 +51,10 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
         }
         const id = crypto.randomUUID();
         streamingIdRef.current = id;
-        return [...prev, { id, role: "alejo", text: payload.token, timestamp: new Date() }];
+        return [
+          ...prev,
+          { id, role: "alejo", text: payload.token, timestamp: new Date() },
+        ].slice(-MAX_CHAT_MESSAGES);
       });
     };
 
@@ -91,7 +96,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     setMessages((prev) => [
       ...prev,
       { id: crypto.randomUUID(), role: "user", text, timestamp: new Date() },
-    ]);
+    ].slice(-MAX_CHAT_MESSAGES));
     getSocket().emit("user:message", { conversationId: getConversationId(), text });
     setDraft("");
   }
