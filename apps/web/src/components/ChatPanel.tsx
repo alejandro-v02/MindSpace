@@ -29,6 +29,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     const onDisconnect = () => {
       setConnected(false);
       setThinking(false);
+      streamingIdRef.current = null;
     };
 
     const onThinking = () => {
