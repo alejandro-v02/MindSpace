@@ -42,6 +42,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     };
 
     const onToken = (payload: { agentId: string; token: string }) => {
+      if (!payload.token) return;
       sceneRef.current?.appendToken(payload.token);
       setMessages((prev) => {
         if (streamingIdRef.current) {
