@@ -21,6 +21,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
   const [thinking, setThinking] = useState(false);
   const streamingIdRef = useRef<string | null>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
+  const shouldAutoScrollRef = useRef(true);
 
   useEffect(() => {
     const socket = getSocket();
@@ -74,7 +75,9 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
   }, [sceneRef]);
 
   useEffect(() => {
-    listEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (shouldAutoScrollRef.current) {
+      listEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   function handleSubmit(event: FormEvent) {
@@ -100,7 +103,16 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           aria-label={connected ? "Conectado" : "Desconectado"}
         />
       </div>
-      <div className="chat-messages" role="log" aria-label="Conversación">
+      <div
+        className="chat-messages"
+        role="log"
+        aria-label="Conversación"
+        onScroll={(event) => {
+          const element = event.currentTarget;
+          shouldAutoScrollRef.current =
+            element.scrollHeight - element.scrollTop - element.clientHeight < 48;
+        }}
+      >
         {messages.map((message) => (
           <div
             key={message.id}
