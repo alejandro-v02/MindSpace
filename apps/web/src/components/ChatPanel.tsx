@@ -34,6 +34,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
 
     const onThinking = () => {
       setThinking(true);
+      streamingIdRef.current = null;
       sceneRef.current?.showThinking();
     };
 
