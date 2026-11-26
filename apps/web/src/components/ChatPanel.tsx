@@ -76,7 +76,10 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
 
   useEffect(() => {
     if (shouldAutoScrollRef.current) {
-      listEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+      listEndRef.current?.scrollIntoView({ behavior });
     }
   }, [messages]);
 
