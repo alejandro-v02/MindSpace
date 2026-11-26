@@ -188,6 +188,7 @@ export class RoomScene extends Phaser.Scene {
   // --- Chat / voice API (llamado desde React) -------------------------------
 
   showThinking(): void {
+    stopSpeaking();
     this.statusText.setText("pensando...").setVisible(true);
     this.bubbleBuffer = "";
     this.hideBubble();
