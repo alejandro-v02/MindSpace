@@ -100,7 +100,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           aria-label={connected ? "Conectado" : "Desconectado"}
         />
       </div>
-      <div className="chat-messages">
+      <div className="chat-messages" role="log" aria-label="Conversación">
         {messages.map((message) => (
           <div
             key={message.id}
