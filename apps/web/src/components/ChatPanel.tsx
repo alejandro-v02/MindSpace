@@ -110,6 +110,9 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
           role="status"
           aria-label={connected ? "Conectado" : "Desconectado"}
         />
+        <span className="connection-label">
+          {connected ? "Conectado" : "Desconectado"}
+        </span>
       </div>
       <div
         className="chat-messages"

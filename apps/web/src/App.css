@@ -64,6 +64,11 @@
   background: #6ee7a0;
 }
 
+.connection-label {
+  color: #bfb3d1;
+  font-size: 12px;
+}
+
 .chat-messages {
   flex: 1;
   overflow-y: auto;
