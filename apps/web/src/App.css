@@ -148,6 +148,11 @@
   cursor: not-allowed;
 }
 
+.chat-input button:focus-visible {
+  outline: 2px solid #d9c7ff;
+  outline-offset: 2px;
+}
+
 .chat-character-count {
   align-self: center;
   min-width: 62px;
