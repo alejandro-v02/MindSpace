@@ -143,6 +143,10 @@
   white-space: nowrap;
 }
 
+.chat-input button:not(:disabled):hover {
+  background: #7a60ce;
+}
+
 .chat-input button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
