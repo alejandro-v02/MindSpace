@@ -147,6 +147,10 @@
   background: #7a60ce;
 }
 
+.chat-input button:not(:disabled):active {
+  background: #5b40a8;
+}
+
 .chat-input button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
