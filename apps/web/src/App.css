@@ -140,6 +140,7 @@
   background: #6c4fc2;
   color: #fff;
   cursor: pointer;
+  transition: background-color 160ms ease;
   white-space: nowrap;
 }
 
