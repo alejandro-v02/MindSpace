@@ -119,6 +119,7 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
         className="chat-messages"
         role="log"
         aria-label="Conversación"
+        aria-busy={thinking}
         onScroll={(event) => {
           const element = event.currentTarget;
           shouldAutoScrollRef.current =
