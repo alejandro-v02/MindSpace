@@ -52,10 +52,13 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
         }
         const id = crypto.randomUUID();
         streamingIdRef.current = id;
-        return [
-          ...prev,
-          { id, role: "alejo", text: payload.token, timestamp: new Date() },
-        ].slice(-MAX_CHAT_MESSAGES);
+        const message: ChatMessage = {
+          id,
+          role: "alejo",
+          text: payload.token,
+          timestamp: new Date(),
+        };
+        return [...prev, message].slice(-MAX_CHAT_MESSAGES);
       });
     };
 
@@ -94,10 +97,15 @@ export function ChatPanel({ sceneRef }: ChatPanelProps) {
     const text = draft.trim();
     if (!text || thinking || !connected) return;
 
-    setMessages((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), role: "user", text, timestamp: new Date() },
-    ].slice(-MAX_CHAT_MESSAGES));
+    setMessages((prev) => {
+      const message: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: "user",
+        text,
+        timestamp: new Date(),
+      };
+      return [...prev, message].slice(-MAX_CHAT_MESSAGES);
+    });
     getSocket().emit("user:message", { conversationId: getConversationId(), text });
     setDraft("");
   }
