@@ -42,6 +42,10 @@
   .chat-messages {
     scroll-behavior: auto;
   }
+
+  .chat-input button {
+    transition: none;
+  }
 }
 
 .chat-header {
